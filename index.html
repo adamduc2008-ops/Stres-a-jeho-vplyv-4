@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zvládanie stresu</title>
+
+  <style>
+    :root{
+      --primary:#2e7d32;
+      --secondary:#1b5e20;
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --accent:#ff9800;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:"Segoe UI",Arial,sans-serif;
+      background:var(--bg);
+      color:#1f2933;
+    }
+
+    header{
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:white;
+      padding:2rem;
+      text-align:center;
+    }
+
+    .container{
+      display:flex;
+      min-height:calc(100vh - 140px);
+    }
+
+    aside{
+      width:260px;
+      background:#ffffff;
+      border-right:1px solid #ddd;
+      padding:1rem;
+    }
+
+    aside h3{
+      margin-top:0;
+      color:var(--primary);
+    }
+
+    .menu button{
+      width:100%;
+      padding:0.8rem;
+      margin-bottom:0.6rem;
+      border:none;
+      background:#f0f0f0;
+      cursor:pointer;
+      border-radius:8px;
+      font-size:1rem;
+    }
+
+    .menu button:hover,
+    .menu button.active{
+      background:var(--primary);
+      color:white;
+    }
+
+    main{
+      flex:1;
+      padding:2rem;
+    }
+
+    .section{
+      display:none;
+      background:var(--card);
+      padding:2rem;
+      border-radius:14px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .section.active{
+      display:block;
+    }
+
+    .question{
+      margin-bottom:1rem;
+    }
+
+    .result{
+      margin-top:1.5rem;
+      padding:1rem;
+      border-radius:10px;
+      font-weight:bold;
+    }
+
+    .low{background:#e8f5e9;color:#2e7d32}
+    .mid{background:#fff3e0;color:#ef6c00}
+    .high{background:#ffebee;color:#c62828}
+
+    footer{
+      text-align:center;
+      padding:1rem;
+      background:#e0e0e0;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Zvládanie stresu</h1>
+  <p>Interaktívna stránka o strese, zdraví a psychickej pohode</p>
+</header>
+
+<div class="container">
+
+  <aside>
+    <h3>Menu</h3>
+    <div class="menu">
+      <button class="active" onclick="showSection('home', this)">Úvod & test</button>
+      <button onclick="showSection('nutrition', this)">Zdravá výživa</button>
+      <button onclick="showSection('movement', this)">Pohyb</button>
+      <button onclick="showSection('help', this)">Pomoc</button>
+    </div>
+  </aside>
+
+  <main>
+
+    <!-- ÚVOD -->
+    <div id="home" class="section active">
+      <h2>🧠 Čo je stres?</h2>
+      <p>
+        Stres je prirodzená reakcia tela na záťaž. Krátkodobo môže pomáhať,
+        no dlhodobý stres negatívne vplýva na psychické aj fyzické zdravie.
+      </p>
+
+      <h3>📝 Rýchly test stresu</h3>
+
+      <div class="question">
+        1. Cítiš sa často unavený?
+        <select id="q1">
+          <option value="0">Nie</option>
+          <option value="1">Niekedy</option>
+          <option value="2">Často</option>
+        </select>
+      </div>
+
+      <div class="question">
+        2. Máš problémy so spánkom?
+        <select id="q2">
+          <option value="0">Nie</option>
+          <option value="1">Niekedy</option>
+          <option value="2">Často</option>
+        </select>
+      </div>
+
+      <div class="question">
+        3. Si často podráždený alebo v strese?
+        <select id="q3">
+          <option value="0">Nie</option>
+          <option value="1">Niekedy</option>
+          <option value="2">Často</option>
+        </select>
+      </div>
+
+      <button onclick="calculateStress()">Vyhodnotiť test</button>
+
+      <div id="result"></div>
+    </div>
+
+    <!-- VÝŽIVA -->
+    <div id="nutrition" class="section">
+      <h2>🥗 Zdravá výživa</h2>
+      <ul>
+        <li>Pravidelné jedlá</li>
+        <li>Dostatok bielkovín</li>
+        <li>Ovocie a zelenina</li>
+        <li>Dostatočný pitný režim</li>
+      </ul>
+    </div>
+
+    <!-- POHYB -->
+    <div id="movement" class="section">
+      <h2>🏃 Pohyb</h2>
+      <ul>
+        <li>Chôdza aspoň 30 minút denne</li>
+        <li>Silový tréning 2–3× týždenne</li>
+        <li>Strečing alebo joga</li>
+      </ul>
+    </div>
+
+    <!-- POMOC -->
+    <div id="help" class="section">
+      <h2>🆘 Kde hľadať pomoc</h2>
+      <ul>
+        <li>Rodina a priatelia</li>
+        <li>Školský psychológ</li>
+        <li>Praktický lekár</li>
+        <li>Linky dôvery (anonymné)</li>
+      </ul>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  © 2026 – Edukačný projekt | Zvládanie stresu
+</footer>
+
+<script>
+  function showSection(id, button){
+    document.querySelectorAll('.section')
+      .forEach(s => s.classList.remove('active'));
+
+    document.querySelectorAll('.menu button')
+      .forEach(b => b.classList.remove('active'));
+
+    document.getElementById(id).classList.add('active');
+    button.classList.add('active');
+  }
+
+  function calculateStress(){
+    let score =
+      Number(q1.value) +
+      Number(q2.value) +
+      Number(q3.value);
+
+    let result = document.getElementById("result");
+
+    if(score <= 2){
+      result.className = "result low";
+      result.textContent = "Nízka úroveň stresu 🙂";
+    } else if(score <= 4){
+      result.className = "result mid";
+      result.textContent = "Stredná úroveň stresu 😐";
+    } else {
+      result.className = "result high";
+      result.textContent = "Vysoká úroveň stresu 😟 – zváž pomoc.";
+    }
+  }
+</script>
+
+</body>
+</html>
